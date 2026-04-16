@@ -1,0 +1,79 @@
+type VoteSummary = 
+ record {
+   description: text;
+   myVote: opt VoteChoice;
+   noCount: nat;
+   noPercent: nat;
+   questionId: QuestionId;
+   selectedSubmission: opt UserId;
+   status: VoteStatus;
+   title: text;
+   totalVotes: nat;
+   yesCount: nat;
+   yesPercent: nat;
+ };
+type VoteStatus = 
+ variant {
+   closed;
+   open;
+ };
+type VoteResult = 
+ variant {
+   notFound;
+   ok;
+   unauthorized;
+   votingClosed;
+ };
+type VoteChoice = 
+ variant {
+   no;
+   yes;
+ };
+type UserId = principal;
+type Timestamp = int;
+type RoomView = 
+ record {
+   code: RoomCode;
+   createdAt: Timestamp;
+   creator: UserId;
+   memberCount: nat;
+   members: vec UserId;
+ };
+type RoomCode = text;
+type RaiseResult = 
+ variant {
+   notFound;
+   ok: Question;
+   unauthorized;
+ };
+type QuestionResult = 
+ variant {
+   notFound;
+   ok: Question;
+   unauthorized;
+ };
+type QuestionId = nat;
+type Question = 
+ record {
+   closedAt: opt Timestamp;
+   description: text;
+   id: QuestionId;
+   raisedAt: Timestamp;
+   raisedBy: UserId;
+   roomCode: RoomCode;
+   selectedSubmission: opt UserId;
+   status: VoteStatus;
+   title: text;
+ };
+service : {
+  castVote: (questionId: QuestionId, choice: VoteChoice) -> (VoteResult);
+  closeVoting: (questionId: QuestionId) -> (QuestionResult);
+  createRoom: () -> (RoomView);
+  getRoom: (code: RoomCode) -> (opt RoomView) query;
+  getVoteSummary: (questionId: QuestionId) -> (opt VoteSummary) query;
+  joinRoom: (code: RoomCode) -> (opt RoomView);
+  listMyRooms: () -> (vec RoomView) query;
+  listRoomQuestions: (roomCode: RoomCode) -> (vec VoteSummary) query;
+  raiseQuestion: (roomCode: RoomCode, title: text, description: text) ->
+   (RaiseResult);
+}

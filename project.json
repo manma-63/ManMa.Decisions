@@ -1,0 +1,21 @@
+{
+  "overview": "A multi-user room-based voting platform where room creators raise questions and all members vote in real-time using a shared room code.",
+  "features": [
+    "Room creation with shareable room code",
+    "Internet Identity login (multi-device)",
+    "Creator raises questions with title and description",
+    "All members vote Yes/No on active questions",
+    "Real-time vote count and percentage display",
+    "Room history with past questions and results",
+    "Member presence display in room lobby"
+  ],
+  "category": "productivity",
+  "tags": [
+    "voting",
+    "rooms",
+    "real-time",
+    "collaboration",
+    "decisions"
+  ],
+  "last_updated": "2026-04-16T11:53:43.399Z"
+}

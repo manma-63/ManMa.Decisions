@@ -1,0 +1,97 @@
+// Version: 1.0.0
+type Data__159895909<T> = {var count : Nat__490723111; elements : [var ?T]};
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type Internal__667636161<T> =
+  {children : [var ?Node__92254746<T>]; data : Data__159895909<T>};
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type Leaf__520550824<T> = {data : Data__159895909<T>};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
+type List__415060402<T> = List__790383201<T>;
+type List__790383201<T> =
+  {
+    var blockIndex : Nat__490723111;
+    var blocks : [var [var ?T]];
+    var elementIndex : Nat__490723111
+  };
+type Map__158565046<K, V> = Map__297112838<K, V>;
+type Map__297112838<K, V> =
+  {var root : Node__46230540<K, V>; var size : Nat__490723111};
+type Map__605269027<K, V> = Map__158565046<K, V>;
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
+type Node__92254746<T> =
+  {#internal : Internal__667636161<T>; #leaf : Leaf__520550824<T>};
+type QuestionId__77764146 = Nat;
+type QuestionInternal__685521013 =
+  {
+    closedAt : ?Timestamp__301639476;
+    description : Text;
+    id : QuestionId__77764146;
+    raisedAt : Timestamp__301639476;
+    raisedBy : UserId__158757552;
+    roomCode : RoomCode__684757313;
+    selectedSubmission : ?UserId__158757552;
+    status : VoteStatus__297285880;
+    title : Text
+  };
+type RoomCode__684757313 = Text;
+type RoomInternal__934123219 =
+  {
+    code : RoomCode__684757313;
+    createdAt : Timestamp__301639476;
+    creator : UserId__158757552;
+    members : Set__532252804<UserId__158757552>
+  };
+type Set__532252804<T> = Set__710576254<T>;
+type Set__710576254<T> =
+  {var root : Node__92254746<T>; var size : Nat__490723111};
+type Timestamp__301639476 = Int;
+type UserId__158757552 = Principal;
+type VoteChoice__461562649 = {#no; #yes};
+type VoteStatus__297285880 = {#closed; #open};
+type Vote__659566044 =
+  {
+    choice : VoteChoice__461562649;
+    votedAt : Timestamp__301639476;
+    voter : UserId__158757552
+  };
+actor {
+  stable memberships :
+    {
+      var root :
+        Node__46230540<UserId__158757552, Set__532252804<RoomCode__684757313>>;
+      var size : Nat__490723111
+    };
+  stable nextQuestionId : {var value : Nat};
+  stable questionSeedCounter : {var value : Nat};
+  stable questions :
+    {
+      var root :
+        Node__46230540<QuestionId__77764146, QuestionInternal__685521013>;
+      var size : Nat__490723111
+    };
+  stable roomCodeCounter : {var value : Nat};
+  stable roomQuestions :
+    {
+      var root :
+        Node__46230540<RoomCode__684757313,
+                        List__415060402<QuestionId__77764146>>;
+      var size : Nat__490723111
+    };
+  stable rooms :
+    {
+      var root : Node__46230540<RoomCode__684757313, RoomInternal__934123219>;
+      var size : Nat__490723111
+    };
+  stable votesByQuestion :
+    {
+      var root :
+        Node__46230540<QuestionId__77764146,
+                        Map__605269027<UserId__158757552, Vote__659566044>>;
+      var size : Nat__490723111
+    }
+};
